@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Edit Hostel{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-header bg-warning">
+        <h5>Edit Hostel</h5>
+    </div>
+
+    <div class="card-body">
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label>Hostel Name</label>
+                <input type="text" name="name" class="form-control" value="{{ hostel.name }}">
+            </div>
+
+            <div class="mb-3">
+                <label>Capacity</label>
+                <input type="number" name="capacity" class="form-control" value="{{ hostel.capacity }}">
+            </div>
+
+            <div class="text-end">
+                <a href="/hostels/" class="btn btn-secondary">Cancel</a>
+                <button class="btn btn-success">Update</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

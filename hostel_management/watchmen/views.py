@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Watchman
 from accounts.models import User
 from accounts.decorators import role_required
@@ -28,3 +28,35 @@ def add_watchman(request):
 def watchman_list(request):
     watchmen = Watchman.objects.all()
     return render(request, 'watchmen/watchman_list.html', {'watchmen': watchmen})
+
+
+
+@role_required('admin')
+def watchman_edit(request, id):
+    watchman = get_object_or_404(User, id=id, role='watchman')
+
+    if request.method == 'POST':
+        watchman.first_name = request.POST.get('first_name', watchman.first_name)
+        watchman.last_name = request.POST.get('last_name', watchman.last_name)
+        watchman.username = request.POST.get('username', watchman.username)
+
+        if request.POST.get('password'):
+            watchman.set_password(request.POST.get('password'))
+
+        watchman.save()
+        return redirect('/watchmen/')
+
+    return render(request, 'watchmen/watchman_edit.html', {'watchman': watchman})
+
+
+@role_required('admin')
+def watchman_delete(request, id):
+    watchman = get_object_or_404(User, id=id, role='watchman')
+
+    if request.method == 'POST':
+        watchman.delete()
+        return redirect('/watchmen/')
+
+    return render(request, 'watchmen/watchman_delete.html', {
+        'watchman': watchman
+    })

@@ -1,23 +1,29 @@
 {% extends 'base.html' %}
-{% block content %}
-<h4>👮 Watchman List</h4>
+{% block title %}Watchmen{% endblock %}
 
-<table class="table table-bordered table-striped">
+{% block content %}
+<div class="d-flex justify-content-between mb-3">
+    <h3>Watchmen</h3>
+    <a href="/watchmen/add/" class="btn btn-primary">+ Add Watchman</a>
+</div>
+
+<table class="table table-bordered">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Mobile</th>
-            <th>Hostel</th>
             <th>Username</th>
+            <th>Name</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         {% for w in watchmen %}
         <tr>
-            <td>{{ w.name }}</td>
-            <td>{{ w.mobile }}</td>
-            <td>{{ w.assigned_hostel }}</td>
-            <td>{{ w.user.username }}</td>
+            <td>{{ w.username }}</td>
+            <td>{{ w.first_name }} {{ w.last_name }}</td>
+            <td>
+                <a href="/watchmen/edit/{{ w.id }}/" class="btn btn-sm btn-warning">Edit</a>
+                <a href="/watchmen/delete/{{ w.id }}/" class="btn btn-sm btn-danger">Delete</a>
+            </td>
         </tr>
         {% endfor %}
     </tbody>

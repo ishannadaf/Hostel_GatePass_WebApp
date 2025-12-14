@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Student
 from .forms import StudentForm
 from accounts.decorators import role_required
+import pandas as pd
+from django.contrib import messages
 
 @role_required('admin')
 def add_student(request):
@@ -30,10 +32,15 @@ def add_student(request):
 
 @role_required('admin')
 def student_list(request):
-    students = Student.objects.all()
+    q = request.GET.get('q', '')
+    students = Student.objects.filter(name__icontains=q) | \
+               Student.objects.filter(roll_no__icontains=q)
+
     return render(request, 'students/student_list.html', {
-        'students': students
+        'students': students,
+        'q': q
     })
+
 
 @role_required('admin')
 def student_edit(request, id):
@@ -81,3 +88,32 @@ def student_delete(request, id):
     return render(request, 'students/student_delete.html', {
         'student': student
     })
+    
+
+
+@role_required('admin')
+def student_import(request):
+    if request.method == 'POST' and request.FILES.get('file'):
+        df = pd.read_excel(request.FILES['file'])
+
+        for _, row in df.iterrows():
+            Student.objects.create(
+                name=row['name'],
+                roll_no=row['roll_no'],
+                contact_no=row['contact_no'],
+                parent_contact=row['parent_contact'],
+                stream=row['stream'],
+                division=row['division'],
+                year=row['year'],
+                hostel_name=row['hostel_name'],
+                room_no=row['room_no'],
+                taluka=row['taluka'],
+                district=row['district'],
+                city=row['city'],
+                gender=row['gender']
+            )
+
+        messages.success(request, 'Students imported successfully')
+        return redirect('/students/')
+
+    return render(request, 'students/student_import.html')

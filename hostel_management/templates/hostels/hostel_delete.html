@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Delete Hostel{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-header bg-danger text-white">
+        <h5>Delete Hostel</h5>
+    </div>
+
+    <div class="card-body">
+        <p>Are you sure you want to delete <b>{{ hostel.name }}</b>?</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            <a href="/hostels/" class="btn btn-secondary">Cancel</a>
+            <button class="btn btn-danger">Delete</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

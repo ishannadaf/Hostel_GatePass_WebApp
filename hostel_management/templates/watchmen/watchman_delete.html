@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Delete Watchman{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-header bg-danger text-white">
+        <h5>Delete Watchman</h5>
+    </div>
+
+    <div class="card-body">
+        <p>Delete watchman <b>{{ watchman.username }}</b>?</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            <a href="/watchmen/" class="btn btn-secondary">Cancel</a>
+            <button class="btn btn-danger">Delete</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

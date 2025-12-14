@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Edit Watchman{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-header bg-warning">
+        <h5>Edit Watchman</h5>
+    </div>
+
+    <div class="card-body">
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label>Username</label>
+                <input type="text" name="username" class="form-control" value="{{ watchman.username }}">
+            </div>
+
+            <div class="mb-3">
+                <label>First Name</label>
+                <input type="text" name="first_name" class="form-control" value="{{ watchman.first_name }}">
+            </div>
+
+            <div class="mb-3">
+                <label>Last Name</label>
+                <input type="text" name="last_name" class="form-control" value="{{ watchman.last_name }}">
+            </div>
+
+            <div class="mb-3">
+                <label>New Password (optional)</label>
+                <input type="password" name="password" class="form-control">
+            </div>
+
+            <div class="text-end">
+                <a href="/watchmen/" class="btn btn-secondary">Cancel</a>
+                <button class="btn btn-success">Update</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

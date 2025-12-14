@@ -1,23 +1,29 @@
 {% extends 'base.html' %}
-{% block content %}
-<h4>🏢 Hostel List</h4>
+{% block title %}Hostels{% endblock %}
 
-<table class="table table-bordered table-striped">
+{% block content %}
+<div class="d-flex justify-content-between mb-3">
+    <h3>Hostels</h3>
+    <a href="/hostels/add/" class="btn btn-primary">+ Add Hostel</a>
+</div>
+
+<table class="table table-bordered">
     <thead>
         <tr>
-            <th>Hostel Name</th>
-            <th>Total Rooms</th>
-            <th>Warden</th>
-            <th>Contact</th>
+            <th>Name</th>
+            <th>Capacity</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         {% for h in hostels %}
         <tr>
-            <td>{{ h.hostel_name }}</td>
-            <td>{{ h.total_rooms }}</td>
-            <td>{{ h.warden_name }}</td>
-            <td>{{ h.contact_no }}</td>
+            <td>{{ h.name }}</td>
+            <td>{{ h.capacity }}</td>
+            <td>
+                <a href="/hostels/edit/{{ h.id }}/" class="btn btn-sm btn-warning">Edit</a>
+                <a href="/hostels/delete/{{ h.id }}/" class="btn btn-sm btn-danger">Delete</a>
+            </td>
         </tr>
         {% endfor %}
     </tbody>
