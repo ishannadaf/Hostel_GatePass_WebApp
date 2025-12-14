@@ -20,4 +20,4 @@ COPY . .
 RUN python manage.py collectstatic --noinput || true
 
 # 🚀 THIS IS THE KEY FIX
-CMD python manage.py migrate && gunicorn hostel_management.wsgi:application --bind 0.0.0.0:8000
+CMD python manage.py migrate && python manage.py create_admin && gunicorn hostel_management.wsgi:application --bind 0.0.0.0:8000
