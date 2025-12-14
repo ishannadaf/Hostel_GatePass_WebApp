@@ -4,6 +4,8 @@ from .forms import StudentForm
 from accounts.decorators import role_required
 import pandas as pd
 from django.contrib import messages
+from django.core.paginator import Paginator
+from django.db.models import Q
 
 @role_required('admin')
 def add_student(request):
@@ -33,8 +35,15 @@ def add_student(request):
 @role_required('admin')
 def student_list(request):
     q = request.GET.get('q', '')
-    students = Student.objects.filter(name__icontains=q) | \
-               Student.objects.filter(roll_no__icontains=q)
+
+    students_qs = Student.objects.filter(
+        Q(name__icontains=q) |
+        Q(roll_no__icontains=q)
+    ).order_by('name')
+
+    paginator = Paginator(students_qs, 10)  # 10 students per page
+    page_number = request.GET.get('page')
+    students = paginator.get_page(page_number)
 
     return render(request, 'students/student_list.html', {
         'students': students,
