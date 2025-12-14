@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Add Hostel{% endblock %}
+
+{% block content %}
+<div class="card shadow p-4">
+    <h4>🏢 Add New Hostel</h4>
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="row mt-3">
+            <div class="col-md-6 mb-3">
+                <label>Hostel Name</label>
+                <input class="form-control" name="hostel_name" required>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Total Rooms</label>
+                <input type="number" class="form-control" name="total_rooms">
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Warden Name</label>
+                <input class="form-control" name="warden_name">
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Contact Number</label>
+                <input class="form-control" name="contact_no">
+            </div>
+        </div>
+
+        <button class="btn btn-primary">Save Hostel</button>
+    </form>
+</div>
+{% endblock %}

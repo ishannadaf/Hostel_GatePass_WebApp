@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<h4>👨‍🎓 Students</h4>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Roll No</th>
+            <th>Hostel</th>
+            <th>Room</th>
+            <th>Photo</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in students %}
+        <tr>
+            <td>{{ s.name }}</td>
+            <td>{{ s.roll_no }}</td>
+            <td>{{ s.hostel_name }}</td>
+            <td>{{ s.room_no }}</td>
+            <td>
+                {% if s.photo %}
+                <img src="{{ s.photo.url }}" width="40">
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

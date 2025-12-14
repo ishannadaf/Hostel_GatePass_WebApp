@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<h4>👮 Watchman List</h4>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Mobile</th>
+            <th>Hostel</th>
+            <th>Username</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for w in watchmen %}
+        <tr>
+            <td>{{ w.name }}</td>
+            <td>{{ w.mobile }}</td>
+            <td>{{ w.assigned_hostel }}</td>
+            <td>{{ w.user.username }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

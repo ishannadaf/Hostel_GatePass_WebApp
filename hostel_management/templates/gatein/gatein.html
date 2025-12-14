@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Gate In{% endblock %}
+
+{% block content %}
+<div class="card shadow p-4">
+    <h4>🚪 Gate In Entry</h4>
+
+    {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+
+    {% if success %}
+    <div class="alert alert-success">{{ success }}</div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <label>Student Roll Number</label>
+                <input class="form-control" name="roll_no" required autofocus>
+            </div>
+        </div>
+
+        <button class="btn btn-success mt-3">Mark Gate In</button>
+    </form>
+</div>
+{% endblock %}

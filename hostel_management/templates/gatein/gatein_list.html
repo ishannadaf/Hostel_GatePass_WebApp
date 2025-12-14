@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<h4>🚪 Gate In Records</h4>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Student</th>
+            <th>Roll No</th>
+            <th>In Time</th>
+            <th>Watchman</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in records %}
+        <tr>
+            <td>{{ r.student.name }}</td>
+            <td>{{ r.student.roll_no }}</td>
+            <td>{{ r.in_time }}</td>
+            <td>{{ r.watchman.username }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

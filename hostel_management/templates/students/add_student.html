@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}Add Student{% endblock %}
+
+{% block content %}
+<div class="card shadow p-4">
+    <h4 class="mb-3">👨‍🎓 New Student Registration</h4>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>Student Name</label>
+                <input class="form-control" name="name" required>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Roll Number</label>
+                <input class="form-control" name="roll_no" required>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Contact Number</label>
+                <input class="form-control" name="contact_no">
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Parent Contact</label>
+                <input class="form-control" name="parent_contact">
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label>Stream</label>
+                <input class="form-control" name="stream">
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label>Division</label>
+                <input class="form-control" name="division">
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label>Year</label>
+                <input class="form-control" name="year">
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label>Hostel</label>
+                <input class="form-control" name="hostel_name">
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label>Room No</label>
+                <input class="form-control" name="room_no">
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label>Gender</label>
+                <select class="form-control" name="gender">
+                    <option>Male</option>
+                    <option>Female</option>
+                </select>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label>Taluka</label>
+                <input class="form-control" name="taluka">
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label>District</label>
+                <input class="form-control" name="district">
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label>City</label>
+                <input class="form-control" name="city">
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Student Photo</label>
+                <input type="file" class="form-control" name="photo">
+            </div>
+        </div>
+
+        <button class="btn btn-success">Save Student</button>
+    </form>
+</div>
+{% endblock %}
