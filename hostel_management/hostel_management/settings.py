@@ -63,7 +63,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    # 'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 ROOT_URLCONF = "hostel_management.urls"
@@ -84,7 +84,7 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = "hostel_management.wsgi.application"
+WSGI_APPLICATION = "hostel_management.wsgi.application"
 
 AUTH_USER_MODEL = 'accounts.User'
 
