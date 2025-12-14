@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
+{% block title %}Students{% endblock %}
+
 {% block content %}
-<h4>👨‍🎓 Students</h4>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Students</h3>
+    <a href="/students/add/" class="btn btn-primary">+ Add Student</a>
+</div>
 
 <table class="table table-bordered table-striped">
     <thead>
@@ -9,7 +14,7 @@
             <th>Roll No</th>
             <th>Hostel</th>
             <th>Room</th>
-            <th>Photo</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -20,12 +25,12 @@
             <td>{{ s.hostel_name }}</td>
             <td>{{ s.room_no }}</td>
             <td>
-                {% if s.photo %}
-                <img src="{{ s.photo.url }}" width="40">
-                {% endif %}
+                <a href="/students/edit/{{ s.id }}/" class="btn btn-sm btn-warning">Edit</a>
+                <a href="/students/delete/{{ s.id }}/" class="btn btn-sm btn-danger">Delete</a>
             </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+
 {% endblock %}

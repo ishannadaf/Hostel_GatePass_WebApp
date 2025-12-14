@@ -7,7 +7,7 @@ from accounts.decorators import role_required
 from .sms_service import send_sms
 
 
-@role_required('watchman')
+@role_required('watchman', 'admin')
 def gatepass_entry(request):
     context = {}
 

@@ -4,7 +4,7 @@ from .models import GateIn
 from django.utils import timezone
 from accounts.decorators import role_required
 
-@role_required('watchman')
+@role_required('watchman', 'admin')
 def gatein_entry(request):
     context = {}
 

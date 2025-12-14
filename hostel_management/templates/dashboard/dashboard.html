@@ -1,19 +1,115 @@
 {% extends 'base.html' %}
-{% block content %}
-<h3>Dashboard</h3>
+{% block title %}Dashboard{% endblock %}
 
-<div class="row">
-    <div class="col-md-3">
-        <div class="card shadow p-3 text-center">
-            <h5>Total Students</h5>
-            <h2>120</h2>
+{% block content %}
+<div class="container-fluid">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="fw-bold">Dashboard</h3>
+            <p class="text-muted mb-0">
+                Welcome, <strong>{{ request.user.username }}</strong>
+                <span class="badge bg-info text-dark ms-2">
+                    {{ request.user.role|title }}
+                </span>
+            </p>
+        </div>
+        <div class="text-muted">
+            📅 {{ today }}
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card shadow p-3 text-center">
-            <h5>Gate Pass Today</h5>
-            <h2>8</h2>
+
+    <!-- COMMON STATS -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm p-3 text-center">
+                <h6>🚪 Gate In Today</h6>
+                <h2>{{ today_gatein }}</h2>
+            </div>
         </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm p-3 text-center">
+                <h6>📝 Gate Pass Today</h6>
+                <h2>{{ today_gatepass }}</h2>
+            </div>
+        </div>
+
+        {% if role == 'admin' %}
+        <div class="col-md-4">
+            <div class="card shadow-sm p-3 text-center">
+                <h6>👨‍🎓 Total Students</h6>
+                <h2>{{ total_students }}</h2>
+            </div>
+        </div>
+        {% endif %}
     </div>
+
+    <!-- ACTION CARDS -->
+    <div class="row">
+
+        {% if role == 'admin' %}
+        <!-- ADMIN OPTIONS -->
+        <div class="col-md-3 mb-3">
+            <a href="/students/" class="text-decoration-none">
+                <div class="card shadow h-100 p-4 text-center">
+                    <h5>👨‍🎓 Students</h5>
+                    <p class="text-muted">Manage student records</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <a href="/hostels/" class="text-decoration-none">
+                <div class="card shadow h-100 p-4 text-center">
+                    <h5>🏢 Hostels</h5>
+                    <p class="text-muted">Hostel details</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <a href="/watchmen/" class="text-decoration-none">
+                <div class="card shadow h-100 p-4 text-center">
+                    <h5>👮 Watchmen</h5>
+                    <p class="text-muted">Manage watchmen</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <a href="/reports/" class="text-decoration-none">
+                <div class="card shadow h-100 p-4 text-center">
+                    <h5>📊 Reports</h5>
+                    <p class="text-muted">Daily / Weekly</p>
+                </div>
+            </a>
+        </div>
+        {% endif %}
+
+        {% if role == 'watchman' %}
+        <!-- WATCHMAN OPTIONS -->
+        <div class="col-md-6 mb-3">
+            <a href="/gatein/" class="text-decoration-none">
+                <div class="card shadow h-100 p-4 text-center">
+                    <h5>🚪 Gate In</h5>
+                    <p class="text-muted">Mark student entry</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <a href="/gatepass/" class="text-decoration-none">
+                <div class="card shadow h-100 p-4 text-center">
+                    <h5>📝 Gate Pass</h5>
+                    <p class="text-muted">Issue gate pass</p>
+                </div>
+            </a>
+        </div>
+        {% endif %}
+
+    </div>
+
 </div>
 {% endblock %}
