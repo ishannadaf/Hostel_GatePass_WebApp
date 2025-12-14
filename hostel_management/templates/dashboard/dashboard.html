@@ -36,7 +36,7 @@
             </div>
         </div>
 
-        {% if role == 'admin' %}
+        {% if request.user.role == 'admin' %}
         <div class="col-md-4">
             <div class="card shadow-sm p-3 text-center">
                 <h6>👨‍🎓 Total Students</h6>
@@ -44,13 +44,13 @@
             </div>
         </div>
         {% endif %}
+
     </div>
 
     <!-- ACTION CARDS -->
     <div class="row">
 
-        {% if role == 'admin' %}
-        <!-- ADMIN OPTIONS -->
+        {% if request.user.role == 'admin' %}
         <div class="col-md-3 mb-3">
             <a href="/students/" class="text-decoration-none">
                 <div class="card shadow h-100 p-4 text-center">
@@ -88,7 +88,7 @@
         </div>
         {% endif %}
 
-        {% if role == 'watchman' %}
+        {% if request.user.role == 'watchman' %}
         <!-- WATCHMAN OPTIONS -->
         <div class="col-md-6 mb-3">
             <a href="/gatein/" class="text-decoration-none">
@@ -110,6 +110,63 @@
         {% endif %}
 
     </div>
+    <div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                Gate In (Last 7 Days)
+            </div>
+            <div class="card-body">
+                <canvas id="gateInChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                Gate Pass (Last 7 Days)
+            </div>
+            <div class="card-body">
+                <canvas id="gatePassChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const labels = {{ labels|safe }};
+    const gateInData = {{ gatein_data|safe }};
+    const gatePassData = {{ gatepass_data|safe }};
+
+    new Chart(document.getElementById('gateInChart'), {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Gate In',
+                data: gateInData,
+                borderColor: '#0d6efd',
+                fill: false,
+                tension: 0.3
+            }]
+        }
+    });
+
+    new Chart(document.getElementById('gatePassChart'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Gate Pass',
+                data: gatePassData,
+                backgroundColor: '#dc3545'
+            }]
+        }
+    });
+</script>
+
 {% endblock %}

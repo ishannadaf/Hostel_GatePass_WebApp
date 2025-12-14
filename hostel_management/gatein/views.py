@@ -3,6 +3,7 @@ from students.models import Student
 from .models import GateIn
 from django.utils import timezone
 from accounts.decorators import role_required
+from accounts.utils import log_activity
 
 @role_required('watchman', 'admin')
 def gatein_entry(request):
@@ -24,6 +25,8 @@ def gatein_entry(request):
                     student=student,
                     watchman=request.user
                 )
+                log_activity(request.user, f"Gate IN - Student {student.name} ({student.roll_no})")
+
                 context['success'] = f'Gate In marked for {student.name}'
 
         except Student.DoesNotExist:

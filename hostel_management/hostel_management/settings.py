@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-
+import os
+from dotenv import load_dotenv
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,12 +22,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-9=(lx^wdhs!g!!*6@d8q2n_y*yt)ysj#xysj@$e#(qliwyf=k-"
+SECRET_KEY = os.getenv('SECRET_KEY', 'dev-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False   # IMPORTANT for deployment
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '.railway.app',
+]
+
 
 
 # Application definition
@@ -56,8 +63,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 ROOT_URLCONF = "hostel_management.urls"
 
 TEMPLATES = [
@@ -76,7 +84,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "hostel_management.wsgi.application"
+# WSGI_APPLICATION = "hostel_management.wsgi.application"
 
 AUTH_USER_MODEL = 'accounts.User'
 
@@ -85,12 +93,12 @@ AUTH_USER_MODEL = 'accounts.User'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'hostel_gatepass',
-        'USER': 'root',
-        'PASSWORD': 'omicron',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': os.getenv('ENGINE'),
+        'NAME': os.getenv('MYSQLDATABASE'), #'hostel_gatepass'
+        'USER': os.getenv('MYSQLUSER'),
+        'PASSWORD': os.getenv('MYSQLPASSWORD'),#'root'
+        'HOST': os.getenv('MYSQLHOST'),#'localhost'
+        'PORT': os.getenv('MYSQLPORT', 3306),
     }
 }
 
@@ -130,7 +138,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Watchman
 from accounts.models import User
 from accounts.decorators import role_required
+from accounts.utils import log_activity
 
 @role_required('admin')
 def add_watchman(request):
@@ -18,7 +19,7 @@ def add_watchman(request):
             mobile=request.POST['mobile'],
             assigned_hostel=request.POST['assigned_hostel']
         )
-
+        log_activity(request.user, f"Added Watchman: {request.POST['username']}")
         return redirect('watchman_list')
 
     return render(request, 'watchmen/add_watchman.html')
@@ -44,6 +45,7 @@ def watchman_edit(request, id):
             watchman.set_password(request.POST.get('password'))
 
         watchman.save()
+        log_activity(request.user, f"Edited Watchman: {request.POST['username']}")
         return redirect('/watchmen/')
 
     return render(request, 'watchmen/watchman_edit.html', {'watchman': watchman})
@@ -55,6 +57,7 @@ def watchman_delete(request, id):
 
     if request.method == 'POST':
         watchman.delete()
+        log_activity(request.user, f"Deleted Watchman: {request.POST['username']}")
         return redirect('/watchmen/')
 
     return render(request, 'watchmen/watchman_delete.html', {

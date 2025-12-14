@@ -18,8 +18,8 @@
     <tbody>
         {% for h in hostels %}
         <tr>
-            <td>{{ h.name }}</td>
-            <td>{{ h.capacity }}</td>
+            <td>{{ h.hostel_name }}</td>
+            <td>{{ h.total_rooms }}</td>
             <td>
                 <a href="/hostels/edit/{{ h.id }}/" class="btn btn-sm btn-warning">Edit</a>
                 <a href="/hostels/delete/{{ h.id }}/" class="btn btn-sm btn-danger">Delete</a>
@@ -28,4 +28,32 @@
         {% endfor %}
     </tbody>
 </table>
+<nav>
+    <ul class="pagination justify-content-center">
+
+        {% if hostels.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ hostels.previous_page_number }}">
+                Previous
+            </a>
+        </li>
+        {% endif %}
+
+        <li class="page-item active">
+            <span class="page-link">
+                Page {{ hostels.number }} of {{ hostels.paginator.num_pages }}
+            </span>
+        </li>
+
+        {% if hostels.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ hostels.next_page_number }}">
+                Next
+            </a>
+        </li>
+        {% endif %}
+
+    </ul>
+</nav>
+
 {% endblock %}

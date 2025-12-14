@@ -6,6 +6,7 @@ import pandas as pd
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.db.models import Q
+from accounts.utils import log_activity
 
 @role_required('admin')
 def add_student(request):
@@ -26,6 +27,7 @@ def add_student(request):
             gender=request.POST.get('gender'),
             photo=request.FILES.get('photo')
         )
+        log_activity(request.user, f"Added Student: {request.POST.get('name')}")
         return redirect('/students/')
 
     return render(request, 'students/add_student.html')
@@ -78,6 +80,8 @@ def student_edit(request, id):
             student.photo = request.FILES.get('photo')
 
         student.save()
+        log_activity(request.user, f"Updated Student: {student.name}")
+
         return redirect('/students/')
 
     return render(request, 'students/student_edit.html', {
@@ -92,7 +96,10 @@ def student_delete(request, id):
 
     if request.method == 'POST':
         student.delete()
+        log_activity(request.user, f"Deleted Student: {student.name}")
+
         return redirect('/students/')
+
 
     return render(request, 'students/student_delete.html', {
         'student': student

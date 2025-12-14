@@ -1,23 +1,41 @@
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from students.models import Student
+from django.shortcuts import render
+from django.utils.timezone import now
+from datetime import timedelta
+
 from gatein.models import GateIn
 from gatepass.models import GatePass
-from django.utils import timezone
+from students.models import Student
 
 @login_required(login_url='/login/')
 def dashboard(request):
+    today = now().date()
+
+    labels = []
+    gatein_data = []
+    gatepass_data = []
+
+    for i in range(6, -1, -1):
+        day = today - timedelta(days=i)
+        labels.append(day.strftime('%d %b'))
+
+        gatein_data.append(
+            GateIn.objects.filter(date=day).count()
+        )
+
+        gatepass_data.append(
+            GatePass.objects.filter(date=day).count()
+        )
+
     context = {
-        'role': request.user.role,
-        'today': timezone.now().date()
+        'today': today,
+        'today_gatein': GateIn.objects.filter(date=today).count(),
+        'today_gatepass': GatePass.objects.filter(date=today).count(),
+        'total_students': Student.objects.count(),
+
+        'labels': labels,
+        'gatein_data': gatein_data,
+        'gatepass_data': gatepass_data,
     }
-
-    # Common stats
-    context['today_gatein'] = GateIn.objects.filter(date=context['today']).count()
-    context['today_gatepass'] = GatePass.objects.filter(date=context['today']).count()
-
-    # Admin-only stats
-    if request.user.role == 'admin':
-        context['total_students'] = Student.objects.count()
 
     return render(request, 'dashboard/dashboard.html', context)

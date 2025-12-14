@@ -5,6 +5,7 @@ from .models import GatePass
 from django.utils import timezone
 from accounts.decorators import role_required
 from .sms_service import send_sms
+from accounts.utils import log_activity
 
 
 @role_required('watchman', 'admin')
@@ -34,6 +35,7 @@ def gatepass_entry(request):
                     watchman=request.user,
                     reason=reason
                 )
+                log_activity(request.user, f"Gate Pass - Student {student.name} ({student.roll_no})")
 
                 # ===== SMS LOGIC =====
                 parent_mobile = student.parent_contact
