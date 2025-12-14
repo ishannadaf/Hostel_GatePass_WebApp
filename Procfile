@@ -1,1 +1,1 @@
-web: gunicorn hostel_management.wsgi
+web: python manage.py migrate && gunicorn hostel_management.wsgi
