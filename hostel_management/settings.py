@@ -93,7 +93,7 @@ AUTH_USER_MODEL = 'accounts.User'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('ENGINE'),
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': os.getenv('MYSQLDATABASE'), #'hostel_gatepass'
         'USER': os.getenv('MYSQLUSER'),
         'PASSWORD': os.getenv('MYSQLPASSWORD'),#'root'
